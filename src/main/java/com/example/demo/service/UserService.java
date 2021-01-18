@@ -1,11 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.model.UserResponse;
 
-public interface UserService extends UserRepository {
+public interface UserService {
 
-    User findByEmail(String email);
-    User findByEmailAndPassword(String email, String password);
+    UserResponse register(User user);
+
+    UserResponse login(String email, String password);
 
 }

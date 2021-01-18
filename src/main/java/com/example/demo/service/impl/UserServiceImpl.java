@@ -2,24 +2,26 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.User;
 import com.example.demo.model.UserResponse;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
 
+    @Override
     public UserResponse register(User user) {
-        User data = userService.findByEmail(user.getEmail());
+        User data = userRepository.findByEmail(user.getEmail());
 
         if (data != null) {
             throw new NullPointerException("Email telah digunakan");
         }
 
-        User newUser = userService.save(user);
+        User newUser = userRepository.save(user);
 
 
         return new UserResponse(
@@ -31,8 +33,9 @@ public class UserServiceImpl {
 
     }
 
+    @Override
     public UserResponse login(String email, String password) {
-        User data = userService.findByEmailAndPassword(email, password);
+        User data = userRepository.findByEmailAndPassword(email, password);
 
         if (data == null) {
             throw new NullPointerException("Email atau password salah");
